@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#5c7cfa" />
+  <title>🌍 地球物理大冒險｜我的學習報告</title>
+
+  <style>
+    /* =========================================================
+       🌍 地球物理大冒險
+       單頁式 Game Style Portfolio
+       可直接部署到 GitHub Pages
+       ========================================================= */
+
+    :root {
+      --bg: #eef7e9;
+      --grass: #78b76d;
+      --grass-dark: #4d8d55;
+      --earth: #9b7653;
+      --earth-light: #cfa778;
+      --sky: #bde7ff;
+      --blue: #5c7cfa;
+      --purple: #9270db;
+      --yellow: #ffd75e;
+      --orange: #ff9d5c;
+      --pink: #ff8fab;
+      --white: #fffdf8;
+      --ink: #30353b;
+      --muted: #6f767d;
+      --shadow: 0 8px 0 rgba(49, 66, 45, 0.14);
+      --shadow-hover: 0 12px 0 rgba(49, 66, 45, 0.17);
+      --radius: 24px;
+      --pixel-shadow:
+        4px 0 0 rgba(48, 53, 59, 0.16),
+        0 4px 0 rgba(48, 53, 59, 0.16),
+        4px 4px 0 rgba(48, 53, 59, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255,255,255,.7) 0 8%, transparent 9%),
+        radial-gradient(circle at 80% 4%, rgba(255,255,255,.7) 0 6%, transparent 7%),
+        linear-gradient(#bde7ff 0 22%, #dff3cc 22% 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* ---------- Pixel decorative clouds ---------- */
+
+    .cloud {
+      position: absolute;
+      width: 140px;
+      height: 42px;
+      background: rgba(255,255,255,.82);
+      border-radius: 999px;
+      opacity: .7;
+      filter: drop-shadow(0 8px 0 rgba(103, 153, 166, .08));
+      animation: floatCloud 18s linear infinite;
+      pointer-events: none;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      background: inherit;
+      border-radius: 50%;
+    }
+
+    .cloud::before {
+      width: 66px;
+      height: 66px;
+      left: 22px;
+      bottom: 10px;
+    }
+
+    .cloud::after {
+      width: 52px;
+      height: 52px;
+      right: 22px;
+      bottom: 12px;
+    }
+
+    .cloud.c1 {
+      top: 85px;
+      left: -180px;
+    }
+
+    .cloud.c2 {
+      top: 150px;
+      left: -280px;
+      width: 110px;
+      transform: scale(.8);
+      animation-delay: 7s;
+    }
+
+    @keyframes floatCloud {
+      from { transform: translateX(0); }
+      to { transform: translateX(calc(100vw + 500px)); }
+    }
+
+    /* ---------- Navigation ---------- */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,.82);
+      border-bottom: 3px solid rgba(77,141,85,.12);
+    }
+
+    .nav {
+      width: min(1180px, 92%);
+      margin: auto;
+      min-height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: 1000;
+      color: var(--grass-dark);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      background: var(--yellow);
+      border-radius: 12px;
+      box-shadow: var(--pixel-shadow);
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      padding: 9px 13px;
+      font-size: .86rem;
+      font-weight: 800;
+      color: var(--muted);
+      border-radius: 999px;
+      transition: .2s ease;
+    }
+
+    .nav-links a:hover {
+      background: #eaf6e7;
+      color: var(--grass-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ---------- Hero ---------- */
+
+    .hero {
+      position: relative;
+      min-height: 690px;
+      padding: 90px 0 110px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 180px;
+      background:
+        linear-gradient(135deg, transparent 0 9%, #7dbb70 9% 18%, transparent 18% 27%, #7dbb70 27% 37%, transparent 37%),
+        linear-gradient(#8bc47d, #79b96e);
+      clip-path: polygon(
+        0 45%,
+        8% 36%,
+        15% 44%,
+        25% 20%,
+        35% 38%,
+        44% 16%,
+        55% 41%,
+        64% 25%,
+        72% 43%,
+        82% 18%,
+        92% 37%,
+        100% 29%,
+        100% 100%,
+        0 100%
+      );
+      opacity: .9;
+    }
+
+    .hero-content {
+      width: min(1180px, 92%);
+      margin: auto;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #ffffffc9;
+      box-shadow: var(--shadow);
+      font-size: .9rem;
+      font-weight: 900;
+      color: var(--purple);
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.7rem, 7vw, 5.8rem);
+      line-height: .95;
+      letter-spacing: -3px;
+      margin-bottom: 22px;
+      color: #385b43;
+      text-shadow: 4px 4px 0 rgba(255,255,255,.75);
+    }
+
+    .hero h1 .accent {
+      color: var(--orange);
+      display: block;
+    }
+
+    .hero-subtitle {
+      max-width: 650px;
+      font-size: 1.15rem;
+      line-height: 1.9;
+      color: #526066;
+      font-weight: 650;
+    }
+
+    .start-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 28px;
+      padding: 15px 22px;
+      border: 0;
+      border-radius: 16px;
+      background: var(--purple);
+      color: white;
+      box-shadow: 0 7px 0 #684eb5;
+      font-weight: 1000;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 0 #684eb5;
+    }
+
+    .start-btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 #684eb5;
+    }
+
+    /* Earth pixel art */
+    .earth-stage {
+      position: relative;
+      min-height: 410px;
+      display: grid;
+      place-items: center;
+    }
+
+    .earth {
+      width: 270px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      position: relative;
+      background:
+        radial-gradient(circle at 38% 29%, #ffffff 0 4%, transparent 5%),
+        linear-gradient(145deg, #72caef 0 53%, #5fb2da 53% 100%);
+      box-shadow:
+        inset -20px -20px 0 rgba(0,0,0,.06),
+        0 15px 0 rgba(53,89,73,.1),
+        0 22px 45px rgba(50,80,65,.2);
+      border: 10px solid rgba(255,255,255,.65);
+      animation: planetFloat 4s ease-in-out infinite;
+    }
+
+    .earth::before {
+      content: "🌏";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 220px;
+      filter: drop-shadow(5px 7px 0 rgba(30,70,50,.12));
+      line-height: 1;
+    }
+
+    .earth-label {
+      position: absolute;
+      right: -25px;
+      bottom: 30px;
+      padding: 12px 16px;
+      background: var(--yellow);
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      font-weight: 1000;
+      transform: rotate(5deg);
+    }
+
+    .hero-card {
+      position: absolute;
+      left: -5px;
+      top: 28px;
+      width: 175px;
+      padding: 17px;
+      background: var(--white);
+      border: 3px solid #3b6245;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      transform: rotate(-6deg);
+      animation: cardFloat 4.5s ease-in-out infinite;
+    }
+
+    .hero-card .hp {
+      font-size: .78rem;
+      color: #7b8588;
+      margin-bottom: 5px;
+      font-weight: 900;
+    }
+
+    .hero-card strong {
+      display: block;
+      font-size: 1.1rem;
+    }
+
+    .hero-card .bar {
+      height: 12px;
+      margin-top: 10px;
+      border-radius: 99px;
+      background: #e7ecea;
+      overflow: hidden;
+    }
+
+    .hero-card .bar span {
+      display: block;
+      width: 87%;
+      height: 100%;
+      background: #76c36c;
+      border-radius: inherit;
+    }
+
+    @keyframes planetFloat {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-16px) rotate(2deg); }
+    }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0) rotate(-6deg); }
+      50% { transform: translateY(-12px) rotate(-3deg); }
+    }
+
+    /* ---------- General section ---------- */
+
+    section {
+      position: relative;
+      padding: 100px 0;
+    }
+
+    .section-inner {
+      width: min(1180px, 92%);
+      margin: auto;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-kicker {
+      color: var(--purple);
+      font-weight: 1000;
+      font-size: .9rem;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: #385b43;
+      margin-bottom: 14px;
+    }
+
+    .section-heading p {
+      max-width: 760px;
+      margin: auto;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .level-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .level-badge {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--purple);
+      color: white;
+      font-weight: 1000;
+      box-shadow: var(--shadow);
+    }
+
+    /* ---------- Level 1 ---------- */
+
+    .origin {
+      background:
+        linear-gradient(180deg, #eff7ea, #f7fbf2);
+    }
+
+    .origin-grid {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 34px;
+      align-items: stretch;
+    }
+
+    .profile-card {
+      padding: 35px;
+      background: #fff;
+      border: 3px solid #d2e5cb;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-card::after {
+      content: "⌁";
+      position: absolute;
+      font-size: 15rem;
+      right: -10px;
+      bottom: -80px;
+      color: rgba(120,183,109,.08);
+      font-weight: 1000;
+    }
+
+    .avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      background: #fff4d0;
+      font-size: 4.2rem;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .profile-card h3 {
+      font-size: 1.7rem;
+      margin-bottom: 12px;
+    }
+
+    .profile-card p {
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .fact-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .fact {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 12px 14px;
+      background: #f5faef;
+      border-radius: 15px;
+      font-weight: 800;
+    }
+
+    .story-card {
+      padding: 40px;
+      background:
+        linear-gradient(135deg, rgba(189,231,255,.8), rgba(255,255,255,.95));
+      border-radius: var(--radius);
+      border: 3px dashed #a8d1e7;
+      box-shadow: var(--shadow);
+    }
+
+    .story-card h3 {
+      margin-bottom: 15px;
+      font-size: 1.7rem;
+    }
+
+    .story-card p {
+      font-size: 1.08rem;
+      line-height: 2;
+      color: #516166;
+    }
+
+    .quote-box {
+      margin-top: 24px;
+      padding: 18px 20px;
+      border-radius: 16px;
+      background: #fff;
+      border-left: 8px solid var(--orange);
+      font-weight: 900;
+      color: #5b6166;
+    }
+
+    /* ---------- Level 2 Skill Map ---------- */
+
+    .skills {
+      background: #fbf6eb;
+    }
+
+    .skill-map {
+      position: relative;
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px 0;
+    }
+
+    .path-line {
+      position: absolute;
+      left: 50%;
+      top: 72px;
+      bottom: 72px;
+      width: 8px;
+      transform: translateX(-50%);
+      border-radius: 99px;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          #d8ba8f 0 18px,
+          #f4e4c8 18px 34px
+        );
+      opacity: .75;
+    }
+
+    .skill-node {
+      position: relative;
+      width: min(760px, 92%);
+      margin: 0 auto 28px;
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      gap: 20px;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .skill-number {
+      width: 78px;
+      height: 78px;
+      border-radius: 23px;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      border: 4px solid var(--grass-dark);
+      font-size: 1.4rem;
+      font-weight: 1000;
+      box-shadow: var(--shadow);
+    }
+
+    .skill-card {
+      padding: 24px;
+      background: white;
+      border: 3px solid #e4dcc8;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateX(7px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .skill-card h3 {
+      margin-bottom: 8px;
+      font-size: 1.25rem;
+    }
+
+    .skill-card p {
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .skill-card small {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f7ebc9;
+      color: #946f1d;
+      font-weight: 900;
+    }
+
+    .formula {
+      margin: 15px 0;
+      padding: 14px 16px;
+      background: #edf7ff;
+      border: 2px dashed #a7d3eb;
+      border-radius: 14px;
+      text-align: center;
+      font-weight: 1000;
+      font-size: 1.1rem;
+      color: #3f677a;
+    }
+
+    /* ---------- Level 3 Mission ---------- */
+
+    .field {
+      background:
+        linear-gradient(#9cd5f0 0 31%, #d5f0c3 31% 100%);
+    }
+
+    .mission-board {
+      background: #fffaf0;
+      border: 5px solid #9b7653;
+      border-radius: 28px;
+      box-shadow: 0 12px 0 rgba(105,73,45,.16);
+      overflow: hidden;
+    }
+
+    .mission-head {
+      padding: 18px 24px;
+      background: #7e6144;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .mission-head strong {
+      font-size: 1.25rem;
+    }
+
+    .mission-status {
+      padding: 7px 12px;
+      background: #9fe18d;
+      color: #2e6635;
+      border-radius: 999px;
+      font-weight: 1000;
+      font-size: .8rem;
+    }
+
+    .mission-body {
+      padding: 32px;
+    }
+
+    .mission-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: 18px;
+      background: #f3eadc;
+      border: 2px solid #e1d2ba;
+    }
+
+    .stat span {
+      display: block;
+      font-size: .8rem;
+      color: #8e8173;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .stat strong {
+      font-size: 1.18rem;
+    }
+
+    .battle-log {
+      display: grid;
+      gap: 15px;
+    }
+
+    .log-entry {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .log-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: #fff;
+      border: 2px solid #d9c6a5;
+      box-shadow: 0 4px 0 rgba(105,73,45,.08);
+    }
+
+    .log-content {
+      padding: 15px 17px;
+      background: #fff;
+      border-radius: 16px;
+      border: 2px solid #eee1c9;
+      line-height: 1.8;
+      color: #625b52;
+    }
+
+    .log-content strong {
+      color: #403b36;
+    }
+
+    .result-box {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: 22px;
+      background: #eaf7df;
+      border: 3px solid #b6d8a8;
+    }
+
+    .result-box h3 {
+      margin-bottom: 15px;
+    }
+
+    .result-number {
+      font-size: 2rem;
+      color: var(--grass-dark);
+      font-weight: 1000;
+      margin: 8px 0;
+    }
+
+    .reflection {
+      margin-top: 22px;
+      padding: 20px;
+      border-radius: 18px;
+      background: #fff1d1;
+      border: 2px dashed #e2bb66;
+      line-height: 1.8;
+      font-weight: 750;
+    }
+
+    /* ---------- Photos ---------- */
+
+    .photo-gallery {
+      margin-top: 42px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .photo-card {
+      position: relative;
+      background: #fff;
+      padding: 12px 12px 20px;
+      box-shadow: 0 10px 22px rgba(48,53,59,.11);
+      border-radius: 7px;
+      transform: rotate(-1.5deg);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .photo-card:nth-child(2) {
+      transform: rotate(1.4deg);
+    }
+
+    .photo-card:nth-child(3) {
+      transform: rotate(-.6deg);
+    }
+
+    .photo-card:hover {
+      transform: translateY(-9px) rotate(0);
+      box-shadow: 0 18px 30px rgba(48,53,59,.16);
+    }
+
+    .photo-card::before {
+      content: "📌";
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.35rem;
+      z-index: 2;
+    }
+
+    .photo-card img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      display: block;
+      object-fit: cover;
+      background:
+        linear-gradient(135deg, #dfeedd, #f6ecd4);
+      border-radius: 4px;
+      border: 2px solid #d9ddd7;
+    }
+
+    .photo-card figcaption {
+      padding: 14px 4px 0;
+      font-weight: 900;
+      color: #5e645f;
+      line-height: 1.5;
+    }
+
+    /* ---------- Level 4 Skills ---------- */
+
+    .magic {
+      background: #f3efff;
+    }
+
+    .magic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .magic-card {
+      position: relative;
+      padding: 30px;
+      background: #fff;
+      border: 3px solid #ded7f2;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: .22s ease;
+    }
+
+    .magic-card:hover {
+      transform: translateY(-7px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .magic-card::after {
+      content: "✦";
+      position: absolute;
+      right: 20px;
+      top: 8px;
+      font-size: 4rem;
+      color: rgba(146,112,219,.12);
+    }
+
+    .magic-icon {
+      font-size: 2.3rem;
+      margin-bottom: 12px;
+    }
+
+    .magic-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .magic-card p {
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .magic-tag {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #f1ecff;
+      color: var(--purple);
+      font-weight: 900;
+      font-size: .82rem;
+    }
+
+    /* ---------- CLIL ---------- */
+
+    .clil-box {
+      margin-top: 25px;
+      padding: 26px;
+      border-radius: 23px;
+      background: linear-gradient(135deg, #fff8d8, #fff);
+      border: 3px solid #efd98b;
+      box-shadow: var(--shadow);
+    }
+
+    .english-word-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .word-chip {
+      padding: 9px 13px;
+      background: #fff;
+      border: 2px solid #e6d899;
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    /* ---------- Level 5 Treasure ---------- */
+
+    .treasure {
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.8) 0 5%, transparent 6%),
+        linear-gradient(#dcebcf, #eff7e9);
+    }
+
+    .treasure-chest {
+      max-width: 900px;
+      margin: 0 auto 30px;
+      padding: 30px;
+      border-radius: 28px;
+      background: #fff;
+      border: 4px solid #d2dfc7;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .chest-icon {
+      font-size: 4.8rem;
+      animation: chestBounce 2.6s ease-in-out infinite;
+    }
+
+    @keyframes chestBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+
+    .treasure-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 17px;
+    }
+
+    .treasure-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 18px;
+      border-radius: 18px;
+      background: white;
+      border: 3px solid #dce8d7;
+      box-shadow: 0 5px 0 rgba(49,66,45,.08);
+      transition: .2s ease;
+      overflow: hidden;
+    }
+
+    .treasure-link:hover {
+      transform: translateY(-5px) scale(1.01);
+      border-color: #aaca9c;
+      box-shadow: var(--shadow-hover);
+    }
+
+    .treasure-icon {
+      width: 52px;
+      height: 52px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: #eef7e9;
+      font-size: 1.7rem;
+    }
+
+    .treasure-link strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .treasure-link span {
+      display: block;
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.5;
+    }
+
+    .portal-arrow {
+      margin-left: auto;
+      font-size: 1.2rem;
+      transition: transform .2s ease;
+    }
+
+    .treasure-link:hover .portal-arrow {
+      transform: translateX(5px);
+    }
+
+    /* ---------- Achievement ---------- */
+
+    .achievement {
+      padding: 90px 0;
+      background:
+        linear-gradient(135deg, #5d4e83, #7f6ab0);
+      color: white;
+      overflow: hidden;
+    }
+
+    .achievement::before,
+    .achievement::after {
+      content: "✦";
+      position: absolute;
+      color: rgba(255,255,255,.15);
+      font-size: 12rem;
+      line-height: 1;
+    }
+
+    .achievement::before {
+      left: -30px;
+      top: -40px;
+    }
+
+    .achievement::after {
+      right: -30px;
+      bottom: -60px;
+    }
+
+    .achievement-box {
+      width: min(900px, 92%);
+      margin: auto;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .unlock {
+      display: inline-block;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.15);
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    .achievement h2 {
+      font-size: clamp(2.3rem, 5vw, 4.5rem);
+      margin-bottom: 16px;
+    }
+
+    .achievement p {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: rgba(255,255,255,.86);
+    }
+
+    .achievement-medal {
+      width: 125px;
+      height: 125px;
+      margin: 30px auto;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 35% 30%, #fff6ad, #ffd35e);
+      border: 7px solid #fff3b0;
+      box-shadow:
+        0 0 0 8px rgba(255,255,255,.12),
+        0 12px 0 rgba(40,35,68,.18);
+      font-size: 3.5rem;
+    }
+
+    .xp-bar {
+      max-width: 620px;
+      margin: 28px auto 0;
+      text-align: left;
+    }
+
+    .xp-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .85rem;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .xp-track {
+      height: 20px;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+    }
+
+    .xp-fill {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ffd75e, #ff9d5c);
+      animation: xpLoad 1.7s ease forwards;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    @keyframes xpLoad {
+      to { transform: scaleX(1); }
+    }
+
+    /* ---------- Footer ---------- */
+
+    footer {
+      padding: 32px 20px;
+      text-align: center;
+      background: #314b37;
+      color: rgba(255,255,255,.82);
+      line-height: 1.8;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    /* ---------- Scroll reveal ---------- */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- Back to top ---------- */
+
+    .top-button {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      width: 50px;
+      height: 50px;
+      border: 0;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: var(--yellow);
+      color: #64521d;
+      box-shadow: var(--shadow);
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s ease;
+      z-index: 500;
+    }
+
+    .top-button.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .top-button:hover {
+      transform: translateY(-4px);
+    }
+
+    /* ---------- Responsive ---------- */
+
+    @media (max-width: 900px) {
+      .hero-content,
+      .origin-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .earth-stage {
+        min-height: 350px;
+      }
+
+      .magic-grid,
+      .treasure-links {
+        grid-template-columns: 1fr;
+      }
+
+      .path-line {
+        left: 39px;
+      }
+
+      .skill-node {
+        grid-template-columns: 78px 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .nav {
+        min-height: 60px;
+      }
+
+      .brand {
+        font-size: .9rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        min-height: 650px;
+        padding-top: 55px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      .earth {
+        width: 220px;
+      }
+
+      .earth::before {
+        font-size: 175px;
+      }
+
+      .hero-card {
+        left: 0;
+        top: 0;
+        transform: scale(.86) rotate(-6deg);
+      }
+
+      .earth-label {
+        right: -5px;
+        bottom: 5px;
+        transform: scale(.9) rotate(5deg);
+      }
+
+      section {
+        padding: 75px 0;
+      }
+
+      .origin-grid,
+      .mission-stats,
+      .photo-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .path-line {
+        display: none;
+      }
+
+      .skill-node {
+        width: 100%;
+        grid-template-columns: 64px 1fr;
+        gap: 12px;
+      }
+
+      .skill-number {
+        width: 64px;
+        height: 64px;
+      }
+
+      .mission-body,
+      .story-card,
+      .profile-card {
+        padding: 24px;
+      }
+
+      .photo-gallery {
+        gap: 30px;
+      }
+    }
+  </style>
+</head>
+
+<body id="top">
+
+  <!-- ☁️ Floating Clouds -->
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+
+  <!-- =========================
+       Navigation
+       ========================= -->
+  <header class="topbar">
+    <nav class="nav">
+      <a href="#top" class="brand">
+        <span class="brand-icon">🌍</span>
+        地球物理大冒險
+      </a>
+
+      <div class="nav-links">
+        <a href="#level1">Lv.1 起源</a>
+        <a href="#level2">技能樹</a>
+        <a href="#level3">野外副本</a>
+        <a href="#level4">AI 魔法</a>
+        <a href="#level5">寶箱</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- =========================
+       Hero
+       ========================= -->
+  <main>
+
+    <section class="hero">
+      <div class="hero-content">
+
+        <div>
+          <div class="hero-tag">🎮 EARTH PHYSICS QUEST · PLAYER 1 READY!</div>
+
+          <h1>
+            地球物理
+            <span class="accent">大冒險！</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            一趟從花蓮斷層帶出發，
+            穿越地震波、折射震測、AI 工具與雙語教學的
+            <strong>五週學習冒險旅程</strong>。
+          </p>
+
+          <a class="start-btn" href="#level1">
+            ▶ START ADVENTURE
+          </a>
+        </div>
+
+        <div class="earth-stage">
+
+          <div class="hero-card">
+            <div class="hp">PLAYER STATUS</div>
+            <strong>探索者 Lv. MAX</strong>
+            <div class="bar"><span></span></div>
+          </div>
+
+          <div class="earth"></div>
+
+          <div class="earth-label">
+            🌎 探索地球！
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================
+         Level 1
+         ========================= -->
+    <section id="level1" class="origin">
+      <div class="section-inner">
+
+        <div class="section-heading reveal">
+          <div class="section-kicker">LEVEL 01 · BEGINNER VILLAGE</div>
+          <h2>🏡 新手村與起源</h2>
+          <p>每位探險家都有自己的起點，而我的起點，是花蓮的米崙斷層帶。</p>
+        </div>
+
+        <div class="origin-grid">
+
+          <article class="profile-card reveal">
+            <div class="avatar">🧑‍🔬</div>
+            <h3>Player 1 Ready!</h3>
+            <p>
+              來自斷層帶的探險家
+            </p>
+
+            <div class="fact-list">
+              <div class="fact">📍 起始地：花蓮</div>
+              <div class="fact">🌏 背景：米崙斷層帶</div>
+              <div class="fact">🌋 初始興趣：地質 × 地震</div>
+              <div class="fact">⚡ 本次任務：重新解鎖地震波</div>
+            </div>
+          </article>
+
+          <article class="story-card reveal">
+            <h3>📜 Quest Story</h3>
+
+            <p>
+              我從小住在花蓮的米崙斷層帶上，地震幾乎伴隨了我的童年與成長，
+              讓我從小對地質與地震科學產生濃厚興趣。
+            </p>
+
+            <p style="margin-top: 16px;">
+              過去學過的 P 波與 S 波概念已漸漸遺忘，
+              感謝老師這 5 週的課程，帶領我從基礎原理重新認識地震波，
+              並結合最新 AI 工具進行實作。
+            </p>
+
+            <div class="quote-box">
+              💬 這不是單純複習知識，而是一場跨領域的技能重新解鎖！
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         Level 2
+         ========================= -->
+    <section id="level2" class="skills">
+      <div class="section-inner">
+
+        <div class="section-heading reveal">
+          <div class="section-kicker">LEVEL 02 · SKILL TREE</div>
+          <h2>🌳 技能樹解鎖</h2>
+          <p>
+            五週課程就像 RPG 的技能樹，每完成一關，
+            就能獲得新的地球物理技能。
+          </p>
+        </div>
+
+        <div class="skill-map">
+          <div class="path-line"></div>
+
+          <article class="skill-node reveal">
+            <div class="skill-number">1</div>
+
+            <div class="skill-card">
+              <h3>🎒 裝備建置：地震學工具包</h3>
+              <p>
+                完成個人地震學課程工具包，建立後續進階探究所需的基本裝備與知識。
+              </p>
+              <small>✅ UNLOCKED</small>
+            </div>
+          </article>
+
+          <article class="skill-node reveal">
+            <div class="skill-number">2</div>
+
+            <div class="skill-card">
+              <h3>⚡ 物理技能覺醒：Snell's Law</h3>
+
+              <p>
+                學習斯乃爾定律（Snell's Law）與臨界折射波（Head wave）。
+                當震波傳播至質地堅硬、波速較快的深層介質
+                （V₂ &gt; V₁）時，會產生折射，
+                形成貼著介面高速滑行的臨界折射波。
+              </p>
+
+              <div class="formula">
+                🔬 V₂ &gt; V₁ → 折射 → Head Wave
+              </div>
+
+              <p>
+                這項技術不僅可以探測校園地下構造，
+                還能應用於地下封存二氧化碳（CCS）可行性的評估。
+              </p>
+
+              <small>⚡ PHYSICS SKILL +50</small>
+            </div>
+          </article>
+
+          <article class="skill-node reveal">
+            <div class="skill-number">3</div>
+
+            <div class="skill-card">
+              <h3>🪄 AI 魔法輔助</h3>
+              <p>
+                學習使用 Antigravity IDE，
+                並將 AI 輔助導入教案設計與學習成果製作。
+              </p>
+              <small>🤖 AI SKILL UNLOCKED</small>
+            </div>
+          </article>
+
+          <article class="skill-node reveal">
+            <div class="skill-number">4</div>
+
+            <div class="skill-card">
+              <h3>🌐 雙語教學演練</h3>
+              <p>
+                完成折射震測 CLIL 雙語教學，
+                並將學習成果轉化為 AI 輔助製作的互動式網頁報告。
+              </p>
+              <small>📚 TEACHING SKILL +40</small>
+            </div>
+          </article>
+
+          <article class="skill-node reveal">
+            <div class="skill-number">5</div>
+
+            <div class="skill-card">
+              <h3>👑 終極任務</h3>
+              <p>
+                探討地震波頻率與地層、建築共振之間的關係，
+                並完成地震探測分析報告。
+              </p>
+              <small>🏆 FINAL QUEST</small>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         Level 3
+         ========================= -->
+    <section id="level3" class="field">
+      <div class="section-inner">
+
+        <div class="section-heading reveal">
+          <div class="section-kicker">LEVEL 03 · FIELD DUNGEON</div>
+          <h2>🗺️ 實地副本探險</h2>
+          <p>折射震測野外實作：真正走進現場，將課堂上的震波變成看得見的資料。</p>
+        </div>
+
+        <div class="mission-board reveal">
+
+          <div class="mission-head">
+            <strong>⚔️ QUEST LOG｜折射震測野外任務</strong>
+            <span class="mission-status">MISSION COMPLETE</span>
+          </div>
+
+          <div class="mission-body">
+
+            <div class="mission-stats">
+              <div class="stat">
+                <span>📍 任務地點</span>
+                <strong>臺北市立大學圖書館後方</strong>
+              </div>
+
+              <div class="stat">
+                <span>👥 冒險隊伍</span>
+                <strong>18 人團隊</strong>
+              </div>
+
+              <div class="stat">
+                <span>📏 測線</span>
+                <strong>48 公尺</strong>
+              </div>
+            </div>
+
+            <div class="battle-log">
+
+              <div class="log-entry">
+                <div class="log-icon">🎒</div>
+                <div class="log-content">
+                  <strong>組隊與裝備：</strong>
+                  使用 24 通道 NZ 地震儀陣列，
+                  測站間距 1 公尺，完成整條測線的佈設。
+                </div>
+              </div>
+
+              <div class="log-entry">
+                <div class="log-icon">🔨</div>
+                <div class="log-content">
+                  <strong>戰鬥實況：</strong>
+                  以大鐵鎚重擊鐵板產生人工震源，
+                  並透過觸發感測器同步記錄。
+                  為避免校園車流與人為微震干擾，
+                  我們抓準車流空檔進行敲擊。
+                </div>
+              </div>
+
+              <div class="log-entry">
+                <div class="log-icon">📡</div>
+                <div class="log-content">
+                  <strong>訊號處理：</strong>
+                  運用「訊號疊加（Stacking）」技術抑制隨機雜訊，
+                  讓震波初到時間更加清晰。
+                </div>
+              </div>
+
+            </div>
+
+            <div class="result-box">
+              <h3>🔓 解密成果</h3>
+
+              <p>
+                從走時曲線圖推算：
+              </p>
+
+              <div class="result-number">
+                300～500 m/s
+              </div>
+              <p>表層波速</p>
+
+              <div class="result-number">
+                600～1000 m/s
+              </div>
+              <p>下層波速</p>
+
+              <p style="margin-top: 14px;">
+                成功推測測區地下約
+                <strong>3 公尺深處</strong>
+                存在明顯的速度界面。
+              </p>
+            </div>
+
+            <div class="reflection">
+              💭 <strong>玩家反思：</strong>
+              老師一句「一台機器造價不斐，沒四千萬不要出門」，
+              讓我深刻體會到專業探勘的嚴謹與高門檻，
+              也因此對地球物理領域更加敬佩。
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 📸 PHOTO AREA -->
+        <div class="photo-gallery">
+
+          <figure class="photo-card reveal">
+            <img
+              src="hammer_strike.jpg"
+              alt="操作大鐵鎚"
+              loading="lazy"
+            />
+            <figcaption>
+              🔨 敲擊震源的正確姿勢與力道
+            </figcaption>
+          </figure>
+
+          <figure class="photo-card reveal">
+            <img
+              src="geophone_setup.jpg"
+              alt="檢波器佈設"
+              loading="lazy"
+            />
+            <figcaption>
+              📡 將 24 支檢波器牢牢固定在土壤中
+            </figcaption>
+          </figure>
+
+          <figure class="photo-card reveal">
+            <img
+              src="professor_teaching.jpg"
+              alt="老師講解儀器"
+              loading="lazy"
+            />
+            <figcaption>
+              👨‍🏫 老師解說千萬級地震儀
+            </figcaption>
+          </figure>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================
+         Level 4
+         ========================= -->
+    <section id="level4" class="magic">
+      <div class="section-inner">
+
+        <div class="section-heading reveal">
+          <div class="section-kicker">LEVEL 04 · LEGENDARY EQUIPMENT</div>
+          <h2>🪄 傳說級系統與工具</h2>
+          <p>
+            從地震儀器到 AI Agent，再到自動化系統，
+            科學學習開始與數位工具真正融合。
+          </p>
+        </div>
+
+        <div class="magic-grid">
+
+          <article class="magic-card reveal">
+            <div class="magic-icon">💻</div>
+            <h3>技能 A｜GitHub 網頁部署與極限突破</h3>
+            <p>
+              學會用 Gemini 生成 HTML / CSS 程式碼，
+              並部署到 GitHub Pages。
+            </p>
+            <p style="margin-top: 12px;">
+              雖然製作遊戲式互動網站時，
+              曾遇到 AI 因 Token limit 造成記憶遺忘或程式碼崩潰，
+              卻也因此激發我挑戰長文本限制的興趣。
+            </p>
+            <span class="magic-tag">🧠 TOKEN SURVIVOR</span>
+          </article>
+
+          <article class="magic-card reveal">
+            <div class="magic-icon">🤖</div>
+            <h3>技能 B｜Antigravity IDE 代理系統</h3>
+            <p>
+              這不只是聊天視窗，而是真正的 AI Agent。
+              它能直接讀取並操作電腦資料夾中的檔案，
+              同時協助撰寫與修改程式碼。
+            </p>
+            <p style="margin-top: 12px;">
+              相較於傳統 AI 容易出現的 Hallucination，
+              Agent 能更精準地根據實際檔案內容執行任務，
+              大幅減少教育現場備課負擔。
+            </p>
+            <span class="magic-tag">⚙️ AI AGENT EQUIPPED</span>
+          </article>
+
+          <article class="magic-card reveal">
+            <div class="magic-icon">📮</div>
+            <h3>技能 C｜Google Apps Script 自動化任務</h3>
+            <p>
+              撰寫專屬後台系統，以 Google Form 收集期末報告學生的姓名與 Email，
+              自動將資料彙整至 Google Sheet。
+            </p>
+            <p style="margin-top: 12px;">
+              同步寄送確認信給老師
+              <strong>oceanicdayi@gmail.com</strong>
+              與學生本人，實現「零人工」的資料流程。
+            </p>
+            <span class="magic-tag">⚡ ZERO MANUAL WORK</span>
+          </article>
+
+          <article class="magic-card reveal">
+            <div class="magic-icon">🌐</div>
+            <h3>技能 D｜CLIL 雙語防災教案設計</h3>
+            <p>
+              化身雙語自然科老師，
+              為小學高年級設計「有趣又容易理解」的地震課程。
+            </p>
+
+            <div class="clil-box">
+              <strong>🎮 教學技能組：</strong>
+
+              <div class="english-word-grid">
+                <span class="word-chip">Epicenter 震央</span>
+                <span class="word-chip">Focus / Hypocenter 震源</span>
+                <span class="word-chip">Earthquake 地震</span>
+                <span class="word-chip">Wave 震波</span>
+              </div>
+
+              <p style="margin-top: 15px;">
+                運用 IRIS 教學資源，
+                透過「水池丟石頭」的生活化比喻引起動機，
+                搭配 YouTube 影片圖解震央與震源差異，
+                再加入英文例句與趣味小測驗，
+                讓科學傳播變得生動又容易理解。
+              </p>
+            </div>
+
+            <span class="magic-tag">🌟 CLIL TEACHER MODE</span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         Level 5
+         ========================= -->
+    <section id="level5" class="treasure">
+      <div class="section-inner">
+
+        <div class="section-heading reveal">
+          <div class="section-kicker">LEVEL 05 · TREASURE ROOM</div>
+          <h2>🎁 存檔紀錄與戰利品</h2>
+          <p>
+            五週冒險不只是結束，而是把作品、系統與知識全部放進自己的寶箱。
+          </p>
+        </div>
+
+        <div class="treasure-chest reveal">
+          <div class="chest-icon">🧰</div>
+          <h3 style="font-size: 1.8rem; margin: 10px 0;">
+            LEGENDARY LOOT BOX
+          </h3>
+          <p style="color: var(--muted); line-height: 1.8;">
+            點擊下方傳送門，前往我的作品世界。
+          </p>
+        </div>
+
+        <div class="treasure-links">
+
+          <a
+            class="treasure-link reveal"
+            href="https://github.com/ziseven/chan2026"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="treasure-icon">🏰</div>
+            <div>
+              <strong>我的 GitHub 主堡</strong>
+              <span>課程作業專案｜chan2026</span>
+            </div>
+            <div class="portal-arrow">➜</div>
+          </a>
+
+          <a
+            class="treasure-link reveal"
+            href="https://ziseven.github.io/ttest/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="treasure-icon">🪪</div>
+            <div>
+              <strong>角色介紹卡</strong>
+              <span>自主製作的介紹網頁</span>
+            </div>
+            <div class="portal-arrow">➜</div>
+          </a>
+
+          <a
+            class="treasure-link reveal"
+            href="https://ziseven.github.io/Maple-Seismic/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="treasure-icon">🍁</div>
+            <div>
+              <strong>互動小遊戲</strong>
+              <span>楓之谷地震學</span>
+            </div>
+            <div class="portal-arrow">➜</div>
+          </a>
+
+          <a
+            class="treasure-link reveal"
+            href="https://drive.google.com/drive/folders/1RBowon_un8n6EWAv3NdcdLRkS52jRRlk"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="treasure-icon">🗂️</div>
+            <div>
+              <strong>系統後台</strong>
+              <span>Apps Script & Form 資料夾</span>
+            </div>
+            <div class="portal-arrow">➜</div>
+          </a>
+
+          <a
+            class="treasure-link reveal"
+            href="https://github.com/oceanicdayi/Utaipei_2026_summer/blob/main/%E6%95%99%E6%A1%88_%E5%BB%BA%E7%AF%89%E5%85%B1%E6%8C%AF_%E5%9B%9B%E7%AF%80%E8%AA%B2.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="treasure-icon">📜</div>
+            <div>
+              <strong>知識卷軸</strong>
+              <span>建築共振探究教案</span>
+            </div>
+            <div class="portal-arrow">➜</div>
+          </a>
+
+          <a
+            class="treasure-link reveal"
+            href="https://oceanicdayi.github.io/Utaipei_2026_summer/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="treasure-icon">🧙</div>
+            <div>
+              <strong>老師的裝備庫</strong>
+              <span>課程資源網站</span>
+            </div>
+            <div class="portal-arrow">➜</div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         Achievement
+         ========================= -->
+    <section class="achievement">
+      <div class="achievement-box reveal">
+
+        <div class="unlock">🏆 ACHIEVEMENT UNLOCKED</div>
+
+        <div class="achievement-medal">
+          🌍
+        </div>
+
+        <h2>地球物理冒險家</h2>
+
+        <p>
+          已完成五週課程冒險！<br />
+          從震波原理 → 折射震測 → 野外實作 →
+          AI 工具 → CLIL 教學 → 數位作品。
+        </p>
+
+        <div class="xp-bar">
+          <div class="xp-label">
+            <span>EXPERIENCE POINTS</span>
+            <span>MAX LEVEL</span>
+          </div>
+
+          <div class="xp-track">
+            <div class="xp-fill"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       Footer
+       ========================= -->
+  <footer>
+    <strong>🌍 地球物理大冒險</strong><br />
+    我的五週地球物理課程學習歷程｜Made with curiosity, science & AI 🤖
+  </footer>
+
+  <!-- Back to top -->
+  <button class="top-button" id="topButton" aria-label="回到頂端">
+    ↑
+  </button>
+
+  <script>
+    /* =========================================================
+       🎮 Interactive JavaScript
+       ========================================================= */
+
+    // ---------- Scroll Reveal ----------
+    const revealItems = document.querySelectorAll(".reveal");
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    revealItems.forEach((item) => {
+      revealObserver.observe(item);
+    });
+
+    // ---------- Back To Top ----------
+    const topButton = document.getElementById("topButton");
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 500) {
+        topButton.classList.add("visible");
+      } else {
+        topButton.classList.remove("visible");
+      }
+    });
+
+    topButton.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+
+    // ---------- Skill Card Click Effect ----------
+    const skillCards = document.querySelectorAll(".skill-card");
+
+    skillCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        card.style.transform = "scale(1.025)";
+        setTimeout(() => {
+          card.style.transform = "";
+        }, 180);
+      });
+    });
+
+    // ---------- Treasure Portal Hover Text ----------
+    const portals = document.querySelectorAll(".treasure-link");
+
+    portals.forEach((portal) => {
+      portal.addEventListener("mouseenter", () => {
+        portal.style.setProperty(
+          "background",
+          "linear-gradient(135deg, #ffffff, #f3faee)"
+        );
+      });
+
+      portal.addEventListener("mouseleave", () => {
+        portal.style.removeProperty("background");
+      });
+    });
+
+    // ---------- Small RPG Console Message ----------
+    console.log(`
+    🌍 =========================================
+       EARTH PHYSICS ADVENTURE
+       PLAYER 1 READY!
+    🌏 =========================================
+
+       Mission:
+       Learn → Explore → Experiment → Build → Share
+
+       Achievement:
+       地球物理冒險家 🏆
+    `);
+  </script>
+
+</body>
+</html>
